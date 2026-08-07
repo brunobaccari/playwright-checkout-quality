@@ -20,3 +20,16 @@ test('conclui a compra de dois produtos e confere subtotal, taxa e total', async
   await expect(page.getByTestId('shopping-cart-badge')).toHaveCount(0);
 });
 
+test('remove um produto sem remover o outro e mantém o carrinho ao recarregar', async ({ page }) => {
+  const checkout = new CheckoutPage(page);
+  await checkout.login();
+  await checkout.addProduct('sauce-labs-backpack');
+  await checkout.addProduct('sauce-labs-bike-light');
+  await checkout.openCart();
+  await page.getByTestId('remove-sauce-labs-bike-light').click();
+  await page.reload();
+  await expect(page.getByTestId('inventory-item')).toHaveCount(1);
+  await expect(page.getByTestId('inventory-item-name')).toHaveText('Sauce Labs Backpack');
+  await expect(page.getByTestId('shopping-cart-badge')).toHaveText('1');
+});
+
