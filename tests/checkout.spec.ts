@@ -33,3 +33,21 @@ test('remove um produto sem remover o outro e mantém o carrinho ao recarregar',
   await expect(page.getByTestId('shopping-cart-badge')).toHaveText('1');
 });
 
+test('dados obrigatórios impedem continuar até serem preenchidos', async ({ page }) => {
+  const checkout = new CheckoutPage(page);
+  await checkout.login();
+  await checkout.addProduct('sauce-labs-backpack');
+  await checkout.openCart();
+  await page.getByTestId('checkout').click();
+  await page.getByTestId('continue').click();
+  await expect(page.getByTestId('error')).toHaveText('Error: First Name is required');
+  await page.getByTestId('firstName').fill('Pessoa');
+  await page.getByTestId('continue').click();
+  await expect(page.getByTestId('error')).toHaveText('Error: Last Name is required');
+  await page.getByTestId('lastName').fill('Teste');
+  await page.getByTestId('continue').click();
+  await expect(page.getByTestId('error')).toHaveText('Error: Postal Code is required');
+  await expect(page).toHaveURL(/\/checkout-step-one.html$/);
+  await checkout.enterCustomer();
+});
+
