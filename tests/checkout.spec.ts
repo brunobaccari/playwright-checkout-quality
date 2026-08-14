@@ -51,3 +51,16 @@ test('dados obrigatórios impedem continuar até serem preenchidos', async ({ pa
   await checkout.enterCustomer();
 });
 
+test('cancelar a revisão retorna ao catálogo e mantém o produto', async ({ page }) => {
+  const checkout = new CheckoutPage(page);
+  await checkout.login();
+  await checkout.addProduct('sauce-labs-backpack');
+  await checkout.openCart();
+  await page.getByTestId('checkout').click();
+  await checkout.enterCustomer();
+  await page.getByTestId('cancel').click();
+  await expect(page).toHaveURL(/\/inventory.html$/);
+  await checkout.openCart();
+  await expect(page.getByTestId('inventory-item-name')).toHaveText('Sauce Labs Backpack');
+});
+
