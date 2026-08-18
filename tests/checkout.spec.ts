@@ -64,3 +64,9 @@ test('cancelar a revisão retorna ao catálogo e mantém o produto', async ({ pa
   await expect(page.getByTestId('inventory-item-name')).toHaveText('Sauce Labs Backpack');
 });
 
+test('usuário bloqueado não acessa o catálogo', async ({ page }) => {
+  await new CheckoutPage(page).login(process.env.LOCKED_USER!);
+  await expect(page.getByTestId('error')).toContainText('Sorry, this user has been locked out.');
+  await expect(page.getByTestId('login-button')).toBeVisible();
+  await expect(page).toHaveURL(process.env.BASE_URL!);
+});
