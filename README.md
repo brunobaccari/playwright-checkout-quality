@@ -1,12 +1,15 @@
 # Checkout no SauceDemo — Playwright e TypeScript
 
+[English version](README.en.md)
+
 Automação contra **https://www.saucedemo.com/**, retomando a jornada do meu [projeto com Selenium](https://github.com/brunobaccari/selenium-test-checkout-automation): login, produtos, carrinho, dados do cliente e conclusão.
 
 ## Instalação e execução
 
-Node.js 22 ou superior e npm. O CI usa Node 24.
+Node.js 22.9 ou superior e npm. O CI usa Node 24.
 
 ```bash
+cp .env.example .env
 npm ci
 npx playwright install chromium
 npm run typecheck
