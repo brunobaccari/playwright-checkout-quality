@@ -36,4 +36,7 @@ URLs and public demo credentials come from `.env`; process variables take preced
 
 Only public demo accounts and fictitious customer data are used. No real payment, mocks, intercepted responses or local server. Expected prices refer to the catalog reviewed on October 6, 2026; external changes require investigation.
 
+
+On GitHub, open **Actions → Tests → run → Summary** for the test-step outcome, JUnit counts and evidence download link. Under **Artifacts**, download `test-results` and extract the ZIP to open the reports. The ZIP also includes `summary.md`. Retention is 7 days; upload and summary steps also run after failures. Missing reports are explicitly reported as unverified execution.
+
 Commit dates in this portfolio were reorganized retroactively; Actions runs retain their actual execution dates.
