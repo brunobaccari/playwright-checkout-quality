@@ -7,6 +7,7 @@ for (const key of ['BASE_URL', 'TEST_USER', 'TEST_PASSWORD', 'LOCKED_USER']) {
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
+  forbidOnly: !!process.env.CI,
   workers: 1,
   timeout: 45000,
   retries: 0,
