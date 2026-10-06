@@ -39,4 +39,10 @@ Only public demo accounts and fictitious customer data are used. No real payment
 
 On GitHub, open **Actions → Tests → run → Summary** for the test-step outcome, JUnit counts and evidence download link. Under **Artifacts**, download `test-results` and extract the ZIP to open the reports. The ZIP also includes `summary.md`. Retention is 7 days; upload and summary steps also run after failures. Missing reports are explicitly reported as unverified execution.
 
+## Risks and CI decision
+
+The main risk is completing an order with stale items or totals. The replacement scenario revisits checkout after cancelling review and checks products, prices, subtotal, tax rounding and an empty cart after completion. This verifies the demo contract, not payment settlement.
+
+The gate requires successful tests and readable JUnit, with no failures, skipped cases or empty report. A run without a report does not approve the commit. For a failure, check installation/network first, then the state captured in artifacts and the scenario expectation; changing an expectation requires confirming the target rule. No automatic test retry converts a failure into approval.
+
 Commit dates in this portfolio were reorganized retroactively; Actions runs retain their actual execution dates.

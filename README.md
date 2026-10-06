@@ -45,4 +45,10 @@ As contas do exemplo são públicas e exclusivas de demonstração. Para outro a
 
 Para consultar no GitHub, abra **Actions → Tests → execução → Summary**. O resumo mostra o resultado da etapa, as contagens do JUnit e o link para baixar as evidências. Em **Artifacts**, baixe `test-results` e extraia o ZIP para abrir os relatórios. O ZIP inclui também `summary.md`. A retenção é de 7 dias; o upload e o resumo também são executados após falhas. Se não houver relatório, o resumo informa que não foi possível confirmar a execução.
 
+## Riscos e decisão no CI
+
+O risco principal é concluir uma compra com itens ou valores desatualizados. O cenário de troca refaz o checkout após cancelar a revisão: confere produtos, preços, subtotal, arredondamento da taxa e carrinho vazio após concluir. Isso valida o contrato da demonstração, não liquidação de pagamento.
+
+O gate exige testes aprovados e JUnit legível, sem falhas, cenários ignorados ou relatório vazio. Uma execução sem relatório não aprova o commit. Em uma falha, confira primeiro instalação/rede, depois o estado capturado nos artifacts e a expectativa do cenário; mudar a expectativa exige confirmar a regra do ambiente. Sem retry automático para transformar uma falha em aprovação.
+
 Datas de commits deste portfólio foram reorganizadas retroativamente; as execuções do Actions mantêm suas datas reais.
