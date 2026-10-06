@@ -70,3 +70,31 @@ test('usuário bloqueado não acessa o catálogo', async ({ page }) => {
   await expect(page.getByTestId('login-button')).toBeVisible();
   await expect(page).toHaveURL(process.env.BASE_URL!);
 });
+
+test('recalcula o checkout após trocar um produto no carrinho', async ({ page }) => {
+  const checkout = new CheckoutPage(page);
+  await checkout.login();
+  await checkout.addProduct('sauce-labs-backpack');
+  await checkout.addProduct('sauce-labs-bike-light');
+  await checkout.openCart();
+  await page.getByTestId('checkout').click();
+  await checkout.enterCustomer();
+  await expect(page.getByTestId('total-label')).toHaveText('Total: $43.18');
+  await page.getByTestId('cancel').click();
+  await checkout.openCart();
+  await page.getByTestId('remove-sauce-labs-backpack').click();
+  await page.getByTestId('continue-shopping').click();
+  await checkout.addProduct('sauce-labs-onesie');
+  await checkout.openCart();
+  await page.getByTestId('checkout').click();
+  await checkout.enterCustomer();
+  await expect(page.getByTestId('inventory-item-name')).toHaveText(['Sauce Labs Bike Light', 'Sauce Labs Onesie']);
+  await expect(page.getByTestId('inventory-item-price')).toHaveText(['$9.99', '$7.99']);
+  await expect(page.getByTestId('subtotal-label')).toHaveText('Item total: $17.98');
+  await expect(page.getByTestId('tax-label')).toHaveText('Tax: $1.44');
+  await expect(page.getByTestId('total-label')).toHaveText('Total: $19.42');
+  await page.getByTestId('finish').click();
+  await expect(page.getByTestId('complete-header')).toHaveText('Thank you for your order!');
+  await checkout.openCart();
+  await expect(page.getByTestId('inventory-item')).toHaveCount(0);
+});
