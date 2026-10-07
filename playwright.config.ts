@@ -20,7 +20,7 @@ export default defineConfig({
     baseURL: process.env.BASE_URL,
     testIdAttribute: "data-test",
     trace: "retain-on-failure",
-    screenshot: "only-on-failure",
+    screenshot: "on",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
 });
